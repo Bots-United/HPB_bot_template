@@ -11,7 +11,7 @@
 
 // stuff for Win32 vs. Linux builds
 
-#ifndef __linux__
+#ifdef _WIN32
 
 typedef int (FAR *GETENTITYAPI)(DLL_FUNCTIONS *, int);
 typedef int (FAR *GETNEWDLLFUNCTIONS)(NEW_DLL_FUNCTIONS *, int *);

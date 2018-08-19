@@ -24,7 +24,7 @@
 #define MENU_3     3
 
 
-#ifndef __linux__
+#ifdef _WIN32
 extern HINSTANCE h_Library;
 #else
 extern void *h_Library;

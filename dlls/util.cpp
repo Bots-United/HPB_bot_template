@@ -29,7 +29,7 @@
 
 #include "bot.h"
 #include "bot_func.h"
-
+#include <ctype.h>
 
 extern int mod_id;
 extern bot_t bots[32];

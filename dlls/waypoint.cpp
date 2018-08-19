@@ -5,8 +5,10 @@
 // waypoint.cpp
 //
 
-#ifndef __linux__
+#ifdef _WIN32
 #include <io.h>
+#else
+#include <unistd.h>
 #endif
 #include <fcntl.h>
 #include <sys/stat.h>

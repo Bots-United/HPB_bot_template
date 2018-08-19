@@ -16,13 +16,15 @@
 #include "engine.h"
 #include "dll.h"
 
-#include <io.h>
+#ifdef _WIN32
 
-#ifndef __linux__
+#include <io.h>
 
 HINSTANCE h_Library = NULL;
 
 #else
+
+#include <unistd.h>
 
 void *h_Library = NULL;
 
@@ -40,7 +42,7 @@ extern DLL_FUNCTIONS other_gFunctionTable;
 extern int mod_id;
 
 
-#ifndef __linux__
+#ifdef _WIN32
 
 // Required DLL entry point
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -56,7 +58,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 #endif
 
-#ifndef __linux__
+#ifdef _WIN32
 #ifdef __BORLANDC__
 extern "C" DLLEXPORT void EXPORT GiveFnptrsToDll(enginefuncs_t* pengfuncsFromEngine, globalvars_t *pGlobals)
 #else
@@ -105,7 +107,7 @@ extern "C" void GiveFnptrsToDll( enginefuncs_t* pengfuncsFromEngine, globalvars_
    {
       mod_id = VALVE_DLL;
 
-#ifndef __linux__
+#ifdef _WIN32
       // test if the game DLL file is NOT available outside of the Steam/PAK cache
       if (access("valve/dlls/hl.dll", 0) == -1)
       {
@@ -118,14 +120,16 @@ extern "C" void GiveFnptrsToDll( enginefuncs_t* pengfuncsFromEngine, globalvars_
          }
       }
       h_Library = LoadLibrary("valve/dlls/hl.dll"); // and load the library
-#else
-      h_Library = dlopen("valve/dlls/hl_i386.so", RTLD_NOW); // and load the library
+#elif defined (__APPLE__)
+      h_Library = dlopen("valve/dlls/hl.dylib", RTLD_NOW); // and load the library
+#elif defined (__linux__)
+      h_Library = dlopen("valve/dlls/hl.so", RTLD_NOW); // and load the library
 #endif
    }
    else if (strcmpi(mod_name, "tfc") == 0)
    {
       mod_id = TFC_DLL;
-#ifndef __linux__
+#ifdef _WIN32
       // test if the game DLL file is NOT available outside of the Steam/PAK cache
       if (access("tfc/dlls/tfc.dll", 0) == -1)
       {
@@ -138,14 +142,16 @@ extern "C" void GiveFnptrsToDll( enginefuncs_t* pengfuncsFromEngine, globalvars_
          }
       }
       h_Library = LoadLibrary("tfc/dlls/tfc.dll");
-#else
-      h_Library = dlopen("tfc/dlls/tfc_i386.so", RTLD_NOW);
+#elif defined (__APPLE__)
+      h_Library = dlopen("tfc/dlls/tfc.dylib", RTLD_NOW);
+#elif defined (__linux__)
+      h_Library = dlopen("tfc/dlls/tfc.so", RTLD_NOW);
 #endif
    }
    else if (strcmpi(mod_name, "cstrike") == 0)
    {
       mod_id = CSTRIKE_DLL;
-#ifndef __linux__
+#ifdef _WIN32
       // test if the game DLL file is NOT available outside of the Steam/PAK cache
       if (access("cstrike/dlls/mp.dll", 0) == -1)
       {
@@ -158,14 +164,16 @@ extern "C" void GiveFnptrsToDll( enginefuncs_t* pengfuncsFromEngine, globalvars_
          }
       }
       h_Library = LoadLibrary("cstrike/dlls/mp.dll");
-#else
-      h_Library = dlopen("cstrike/dlls/cs_i386.so", RTLD_NOW);
+#elif defined (__APPLE__)
+      h_Library = dlopen("cstrike/dlls/cs.dylib", RTLD_NOW);
+#elif defined (__linux__)
+      h_Library = dlopen("cstrike/dlls/cs.so", RTLD_NOW);
 #endif
    }
    else if (strcmpi(mod_name, "gearbox") == 0)
    {
       mod_id = GEARBOX_DLL;
-#ifndef __linux__
+#ifdef _WIN32
       // test if the game DLL file is NOT available outside of the Steam/PAK cache
       if (access("gearbox/dlls/opfor.dll", 0) == -1)
       {
@@ -178,14 +186,16 @@ extern "C" void GiveFnptrsToDll( enginefuncs_t* pengfuncsFromEngine, globalvars_
          }
       }
       h_Library = LoadLibrary("gearbox/dlls/opfor.dll");
-#else
-      h_Library = dlopen("gearbox/dlls/opfor_i386.so", RTLD_NOW);
+#elif defined (__APPLE__)
+      h_Library = dlopen("gearbox/dlls/opfor.dylib", RTLD_NOW);
+#elif defined (__linux__)
+      h_Library = dlopen("gearbox/dlls/opfor.so", RTLD_NOW);
 #endif
    }
    else if (strcmpi(mod_name, "frontline") == 0)
    {
       mod_id = FRONTLINE_DLL;
-#ifndef __linux__
+#ifdef _WIN32
       // test if the game DLL file is NOT available outside of the Steam/PAK cache
       if (access("frontline/dlls/frontline.dll", 0) == -1)
       {
